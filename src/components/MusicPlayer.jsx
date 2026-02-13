@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { FiMusic, FiVolume2, FiVolumeX } from 'react-icons/fi';
 import { motion } from 'framer-motion';
-import song from '../assets/song/bimbisara-song.m4a'
+import song from '../assets/song/dil-kyun.mp3'
 
 const MusicPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);

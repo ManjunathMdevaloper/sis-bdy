@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import TimelineItem from '../components/TimelineItem';
-import { motion } from 'framer-motion';
+import PageIntro from '../components/PageIntro';
 
 const wishesData = [
   { year: "2021", wish: "The year our stars crossed in college. I didn't know then that I'd found a sister for life." },
@@ -11,21 +12,47 @@ const wishesData = [
 ];
 
 const Wishes = () => {
+  const [introDone, setIntroDone] = useState(false);
+
   return (
     <div className="section-padding container">
-      <h1 className="text-center mb-5" style={{ color: 'var(--accent-color)', fontSize: 'clamp(2.5rem, 8vw, 3.5rem)' }}>Our Timeline</h1>
-      <div className="timeline-wrapper">
-        <div className="timeline-line"></div>
-        {wishesData.map((item, index) => (
-          <TimelineItem
-            key={index}
-            year={item.year}
-            wish={item.wish}
-            side={index % 2 === 0 ? 'left' : 'right'}
-            delay={index * 0.1}
+
+      <AnimatePresence>
+        {!introDone && (
+          <PageIntro
+            emoji="🌟"
+            title="Our Timeline"
+            sub="A journey through our memories..."
+            color="#b56a00"
+            onDone={() => setIntroDone(true)}
           />
-        ))}
-      </div>
+        )}
+      </AnimatePresence>
+
+      <motion.div
+        initial={{ opacity: 0, y: 18 }}
+        animate={{ opacity: introDone ? 1 : 0, y: introDone ? 0 : 18 }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+      >
+        <h1 className="text-center mb-5"
+          style={{ color: 'var(--accent-color)', fontSize: 'clamp(2.5rem, 8vw, 3.5rem)' }}>
+          Our Timeline
+        </h1>
+
+        <div className="timeline-wrapper">
+          <div className="timeline-line" />
+          {wishesData.map((item, index) => (
+            <TimelineItem
+              key={index}
+              year={item.year}
+              wish={item.wish}
+              side={index % 2 === 0 ? 'left' : 'right'}
+              delay={index * 0.1}
+            />
+          ))}
+        </div>
+      </motion.div>
+
       <style dangerouslySetInnerHTML={{
         __html: `
         .timeline-wrapper {
@@ -37,17 +64,14 @@ const Wishes = () => {
         .timeline-line {
           position: absolute;
           left: 50%;
-          top: 0;
-          bottom: 0;
+          top: 0; bottom: 0;
           width: 2px;
           background: var(--accent-color);
           opacity: 0.3;
           transform: translateX(-50%);
         }
         @media (max-width: 768px) {
-          .timeline-line {
-            left: 30px;
-          }
+          .timeline-line { left: 30px; }
         }
         .text-center { text-align: center; }
         .mb-5 { margin-bottom: 3rem; }

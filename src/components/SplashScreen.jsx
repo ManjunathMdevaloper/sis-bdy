@@ -1,15 +1,117 @@
 import React, { useState, useEffect, useRef } from 'react';
+import confetti from 'canvas-confetti';
 
 const SplashScreen = ({ onComplete }) => {
   const [phase, setPhase] = useState('waiting'); // waiting → scissors → cut → open → done
   const timersRef = useRef([]);
 
+  const fireBlast = () => {
+    // Centre burst
+    confetti({
+      particleCount: 160,
+      spread: 100,
+      origin: { x: 0.5, y: 0.55 },
+      colors: ['#ff6b6b', '#ff9a9e', '#fecfef', '#fff', '#feb47b', '#ff5c8d', '#ffdd67'],
+      startVelocity: 55,
+      ticks: 120,
+      zIndex: 9998,
+      scalar: 1.1,
+    });
+    // Left cannon
+    confetti({
+      particleCount: 80,
+      angle: 60,
+      spread: 70,
+      origin: { x: 0, y: 0.6 },
+      colors: ['#ff6b6b', '#fecfef', '#fff', '#ffdd67'],
+      startVelocity: 60,
+      zIndex: 9998,
+    });
+    // Right cannon
+    confetti({
+      particleCount: 80,
+      angle: 120,
+      spread: 70,
+      origin: { x: 1, y: 0.6 },
+      colors: ['#ff6b6b', '#fecfef', '#fff', '#ffdd67'],
+      startVelocity: 60,
+      zIndex: 9998,
+    });
+    // Second pulse after 350ms for layered effect
+    setTimeout(() => {
+      confetti({
+        particleCount: 80,
+        spread: 120,
+        origin: { x: 0.5, y: 0.5 },
+        colors: ['#ff9a9e', '#fff', '#feb47b', '#ffd700'],
+        startVelocity: 40,
+        ticks: 90,
+        zIndex: 9998,
+        scalar: 0.85,
+      });
+    }, 350);
+  };
+
+  const fireGrandBlast = () => {
+    // Massive centre explosion
+    confetti({
+      particleCount: 220,
+      spread: 140,
+      origin: { x: 0.5, y: 0.4 },
+      colors: ['#ff6b6b', '#ff9a9e', '#fecfef', '#fff', '#feb47b', '#ff5c8d', '#ffdd67', '#ffd700'],
+      startVelocity: 70,
+      ticks: 200,
+      zIndex: 9998,
+      scalar: 1.2,
+    });
+    // Left side fountain
+    confetti({
+      particleCount: 100,
+      angle: 55,
+      spread: 80,
+      origin: { x: 0.05, y: 0.5 },
+      colors: ['#ff6b6b', '#fff', '#ffd700', '#fecfef'],
+      startVelocity: 75,
+      ticks: 180,
+      zIndex: 9998,
+    });
+    // Right side fountain
+    confetti({
+      particleCount: 100,
+      angle: 125,
+      spread: 80,
+      origin: { x: 0.95, y: 0.5 },
+      colors: ['#ff6b6b', '#fff', '#ffd700', '#fecfef'],
+      startVelocity: 75,
+      ticks: 180,
+      zIndex: 9998,
+    });
+    // Continuous shower for 3 seconds over the home page
+    const end = Date.now() + 3000;
+    const shower = setInterval(() => {
+      if (Date.now() > end) { clearInterval(shower); return; }
+      confetti({
+        particleCount: 18,
+        spread: 100,
+        origin: { x: Math.random(), y: -0.05 },
+        colors: ['#ff6b6b', '#ffb3c1', '#fff', '#ffd700', '#feb47b'],
+        startVelocity: 20,
+        ticks: 160,
+        gravity: 0.8,
+        zIndex: 9998,
+        scalar: 0.9,
+      });
+    }, 120);
+  };
+
   const handleOpen = () => {
     if (phase !== 'waiting') return;
+    fireBlast();          // instant blast on click
     setPhase('scissors');
 
     const t1 = setTimeout(() => setPhase('cut'), 1600);
-    const t2 = setTimeout(() => setPhase('open'), 2200);
+    // Fire grand celebration exactly when panels slide open
+    const t2 = setTimeout(() => { setPhase('open'); fireGrandBlast(); }, 2200);
     const t3 = setTimeout(() => { setPhase('done'); onComplete(); }, 3600);
 
     timersRef.current = [t1, t2, t3];

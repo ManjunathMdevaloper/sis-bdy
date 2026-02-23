@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import MessageCard from '../components/MessageCard';
-import { motion } from 'framer-motion';
+import PageIntro from '../components/PageIntro';
 
 const messages = [
     "To my College Sister who became my world: Happy Birthday, Siri! 🌸",
@@ -11,20 +12,40 @@ const messages = [
 ];
 
 const Messages = () => {
+    const [introDone, setIntroDone] = useState(false);
+
     return (
         <div className="section-padding container">
+
+            <AnimatePresence>
+                {!introDone && (
+                    <PageIntro
+                        emoji="💌"
+                        title="Heartfelt Words"
+                        sub="From my heart to yours..."
+                        color="#7c1fa0"
+                        onDone={() => setIntroDone(true)}
+                    />
+                )}
+            </AnimatePresence>
+
             <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
                 className="messages-page"
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: introDone ? 1 : 0, y: introDone ? 0 : 18 }}
+                transition={{ duration: 0.6, ease: 'easeOut' }}
             >
-                <h1 className="text-center mb-5" style={{ color: 'var(--accent-color)', fontSize: 'clamp(2.5rem, 8vw, 3.5rem)' }}>Heartfelt Words</h1>
+                <h1 className="text-center mb-5"
+                    style={{ color: 'var(--accent-color)', fontSize: 'clamp(2.5rem, 8vw, 3.5rem)' }}>
+                    Heartfelt Words
+                </h1>
                 <div className="messages-list">
                     {messages.map((ms, index) => (
                         <MessageCard key={index} text={ms} delay={index * 0.2} />
                     ))}
                 </div>
             </motion.div>
+
         </div>
     );
 };

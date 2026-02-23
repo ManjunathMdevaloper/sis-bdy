@@ -49,26 +49,66 @@ const Navbar = () => {
           display: flex;
           justify-content: space-between;
           align-items: center;
+          list-style: none;
+          padding: 0;
+          margin: 0;
+        }
+        .nav-links li {
+          list-style: none;
         }
         .nav-link {
           position: relative;
           display: flex;
           flex-direction: column;
           align-items: center;
-          padding: 5px 10px;
+          padding: 8px 12px;
+          border-radius: 18px;
           color: var(--text-dark);
           font-size: 0.75rem;
           font-weight: 600;
-          transition: var(--transition-smooth);
+          text-decoration: none;
           opacity: 0.5;
+          transition: opacity 0.3s ease,
+                      transform 0.25s cubic-bezier(0.34,1.56,0.64,1),
+                      color 0.25s ease,
+                      background 0.25s ease,
+                      box-shadow 0.25s ease;
+          transform-origin: center bottom;
         }
+        .nav-link * { text-decoration: none; }
+        /* Hover */
+        .nav-link:hover {
+          opacity: 1;
+          color: var(--accent-color);
+          transform: translateY(-4px) scale(1.12);
+          background: rgba(255, 107, 107, 0.1);
+          box-shadow: 0 6px 18px rgba(255, 107, 107, 0.18);
+        }
+        .nav-link:hover .nav-icon {
+          animation: nav-icon-bounce 0.45s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        /* Active page */
         .nav-link.active {
           opacity: 1;
           color: var(--accent-color);
+          background: rgba(255, 107, 107, 0.12);
+          box-shadow: 0 4px 14px rgba(255, 107, 107, 0.2);
+        }
+        .nav-link.active .nav-icon {
+          filter: drop-shadow(0 2px 6px rgba(255,107,107,0.5));
+        }
+        /* Press */
+        .nav-link:active { transform: translateY(-1px) scale(0.97); }
+        @keyframes nav-icon-bounce {
+          0%   { transform: translateY(0) scale(1); }
+          40%  { transform: translateY(-6px) scale(1.2); }
+          70%  { transform: translateY(2px) scale(0.95); }
+          100% { transform: translateY(0) scale(1); }
         }
         .nav-icon {
           font-size: 1.4rem;
-          margin-bottom: 2px;
+          margin-bottom: 3px;
+          transition: filter 0.25s ease;
         }
         .nav-underline {
           position: absolute;
@@ -94,6 +134,7 @@ const Navbar = () => {
           .nav-text {
             display: block;
             margin-top: 2px;
+            text-decoration: none !important;
           }
         }
       `}} />

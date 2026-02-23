@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import MusicPlayer from './components/MusicPlayer';
 import FloatingHearts from './components/FloatingHearts';
+import SplashScreen from './components/SplashScreen';
 import Home from './pages/Home';
 import Gallery from './pages/Gallery';
 import Messages from './pages/Messages';
@@ -26,54 +27,46 @@ const PageWrapper = ({ children }) => {
 };
 
 function App() {
+  const [splashDone, setSplashDone] = useState(false);
+
   return (
     <Router>
-      <div className="app-main">
-        <FloatingHearts />
-        <Navbar />
-        <MusicPlayer />
+      <>
+        {/* Ribbon-cutting splash — always mounted first, unmounts after animation */}
+        <AnimatePresence>
+          {!splashDone && (
+            <SplashScreen onComplete={() => setSplashDone(true)} />
+          )}
+        </AnimatePresence>
 
-        <div className="content-area">
-          <AnimatePresence mode="wait">
-            <Routes>
-              <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
-              <Route path="/gallery" element={<PageWrapper><Gallery /></PageWrapper>} />
-              <Route path="/messages" element={<PageWrapper><Messages /></PageWrapper>} />
-              <Route path="/wishes" element={<PageWrapper><Wishes /></PageWrapper>} />
-              <Route path="/note" element={<PageWrapper><Note /></PageWrapper>} />
-            </Routes>
-          </AnimatePresence>
-        </div>
+        {/* Main app content fades in after splash */}
+        <motion.div
+          className="app-main"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: splashDone ? 1 : 0 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+        >
+          <FloatingHearts />
+          <Navbar />
+          <MusicPlayer />
 
-        <footer className="footer section-padding">
-          <p>© 2026 Made with ❤️ for my Sister</p>
-        </footer>
+          <div className="content-area">
+            <AnimatePresence mode="wait">
+              <Routes>
+                <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
+                <Route path="/gallery" element={<PageWrapper><Gallery /></PageWrapper>} />
+                <Route path="/messages" element={<PageWrapper><Messages /></PageWrapper>} />
+                <Route path="/wishes" element={<PageWrapper><Wishes /></PageWrapper>} />
+                <Route path="/note" element={<PageWrapper><Note /></PageWrapper>} />
+              </Routes>
+            </AnimatePresence>
+          </div>
 
-        <style dangerouslySetInnerHTML={{
-          __html: `
-          .app-main {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-          }
-          .content-area {
-            flex: 1;
-            padding-bottom: 100px; /* Space for navbar */
-          }
-          @media (min-width: 768px) {
-            .content-area {
-              padding-top: 80px;
-              padding-bottom: 40px;
-            }
-          }
-          .footer {
-            text-align: center;
-            opacity: 0.6;
-            font-size: 0.9rem;
-            padding: 40px 20px;
-          }
-        `}} />
-      </div>
+          <footer className="footer">
+            <p>© 2026 Made with ❤️ for my Sister</p>
+          </footer>
+        </motion.div>
+      </>
     </Router>
   );
 }

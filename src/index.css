@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Caveat:wght@400..700&family=Outfit:wght@100..900&display=swap');
 
+/* ══════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════ */
 :root {
   --primary-gradient: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
   --premium-gradient: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
@@ -9,132 +12,209 @@
   --text-dark: #2d3436;
   --text-soft: #636e72;
   --shadow-premium: 0 20px 40px rgba(255, 107, 107, 0.15);
+  --shadow-soft: 0 8px 24px rgba(255, 107, 107, 0.1);
   --transition-smooth: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  --radius-card: 24px;
+  --radius-pill: 50px;
+
+  /* Fluid base font */
   font-size: 14px;
 }
+@media (min-width: 480px)  { :root { font-size: 15px; } }
+@media (min-width: 768px)  { :root { font-size: 16px; } }
+@media (min-width: 1200px) { :root { font-size: 17px; } }
 
-@media (min-width: 768px) {
-  :root {
-    font-size: 16px;
-  }
-}
-
-* {
+/* ══════════════════════════════════════════════
+   RESET & BASE
+══════════════════════════════════════════════ */
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+html { scroll-behavior: smooth; }
 
 body {
   font-family: 'Outfit', 'Quicksand', sans-serif;
   background-color: #fff5f5;
   background-image:
-    radial-gradient(at 0% 0%, hsla(353, 100%, 94%, 1) 0, transparent 50%),
-    radial-gradient(at 50% 0%, hsla(348, 100%, 96%, 1) 0, transparent 50%),
-    radial-gradient(at 100% 0%, hsla(352, 100%, 94%, 1) 0, transparent 50%);
+    radial-gradient(at 0%   0%, hsla(353,100%,94%,1) 0, transparent 50%),
+    radial-gradient(at 50%  0%, hsla(348,100%,96%,1) 0, transparent 50%),
+    radial-gradient(at 100% 0%, hsla(352,100%,94%,1) 0, transparent 50%);
   color: var(--text-dark);
   overflow-x: hidden;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+img, video {
+  max-width: 100%;
+  display: block;
+}
+
+/* ══════════════════════════════════════════════
+   TYPOGRAPHY
+══════════════════════════════════════════════ */
+h1, h2, h3, h4, h5, h6 {
   font-family: 'Outfit', sans-serif;
   font-weight: 700;
   letter-spacing: -0.02em;
+  line-height: 1.15;
 }
 
+/* ══════════════════════════════════════════════
+   LAYOUT UTILITIES
+══════════════════════════════════════════════ */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: clamp(1rem, 4vw, 2.5rem);
+  padding-right: clamp(1rem, 4vw, 2.5rem);
+}
+
+.section-padding {
+  padding-top:    clamp(3rem, 8vw, 7rem);
+  padding-bottom: clamp(3rem, 8vw, 7rem);
+  padding-left:   clamp(1rem, 4vw, 2.5rem);
+  padding-right:  clamp(1rem, 4vw, 2.5rem);
+}
+
+/* ══════════════════════════════════════════════
+   GLASS CARD
+══════════════════════════════════════════════ */
 .glass-card {
   background: var(--glass-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--radius-card);
   box-shadow: var(--shadow-premium);
 }
 
+/* ══════════════════════════════════════════════
+   BUTTONS
+══════════════════════════════════════════════ */
 .btn-primary {
+  display: inline-block;
   background: var(--primary-gradient);
   color: white;
-  padding: 1rem 2.2rem;
-  border-radius: 50px;
+  padding: clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2.2rem);
+  border-radius: var(--radius-pill);
   border: none;
   font-weight: 700;
   cursor: pointer;
   transition: var(--transition-smooth);
-  box-shadow: 0 10px 20px rgba(255, 154, 158, 0.4);
-  font-size: 1.1rem;
+  box-shadow: 0 10px 20px rgba(255,154,158,0.4);
+  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
   text-transform: uppercase;
   letter-spacing: 1px;
 }
-
 .btn-primary:hover {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 15px 30px rgba(255, 154, 158, 0.6);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(255,154,158,0.55);
+}
+.btn-primary:active { transform: translateY(0) scale(0.98); }
+
+/* ══════════════════════════════════════════════
+   TEXT UTILITIES
+══════════════════════════════════════════════ */
+.text-gradient {
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.text-center { text-align: center; }
+.mb-5 { margin-bottom: clamp(1.5rem, 4vw, 3rem); }
+
+/* ══════════════════════════════════════════════
+   PAGE TITLES (Gallery, Messages, Wishes…)
+══════════════════════════════════════════════ */
+.page-title {
+  font-size: clamp(2rem, 7vw, 4rem);
+  color: var(--accent-color);
+  margin-bottom: 0.6rem;
+}
+.page-subtitle {
+  font-size: clamp(0.95rem, 3vw, 1.25rem);
+  opacity: 0.7;
+  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
 }
 
-.section-padding {
-  padding: 5rem 1.5rem;
-}
-
-@media (min-width: 768px) {
-  .section-padding {
-    padding: 8rem 4rem;
-  }
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
+/* ══════════════════════════════════════════════
+   MESSAGE CARDS — responsive
+══════════════════════════════════════════════ */
+.message-card {
+  padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1.2rem, 3vw, 2rem);
+  margin-bottom: clamp(1rem, 3vw, 1.8rem);
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
   width: 100%;
 }
+.messages-list { width: 100%; }
 
-/* Floating Heart Animation */
+/* ══════════════════════════════════════════════
+   FLOATING HEARTS
+══════════════════════════════════════════════ */
 @keyframes float {
-  0% {
-    transform: translateY(0) translateX(0) rotate(0);
-    opacity: 0;
-  }
-
-  10% {
-    opacity: 0.8;
-  }
-
-  50% {
-    transform: translateY(-50vh) translateX(50px) rotate(180deg);
-  }
-
-  100% {
-    transform: translateY(-110vh) translateX(-20px) rotate(360deg);
-    opacity: 0;
-  }
+  0%   { transform: translateY(0) translateX(0) rotate(0); opacity: 0; }
+  10%  { opacity: 0.8; }
+  50%  { transform: translateY(-50vh) translateX(50px) rotate(180deg); }
+  100% { transform: translateY(-110vh) translateX(-20px) rotate(360deg); opacity: 0; }
 }
-
 .floating-heart {
   position: fixed;
   color: var(--accent-color);
   pointer-events: none;
   z-index: 10;
   animation: float linear infinite;
-  text-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
+  text-shadow: 0 0 10px rgba(255,107,107,0.3);
+}
+.floating-heart:nth-child(even) { color: #ff9a9e; }
+.floating-heart:nth-child(3n)   { color: #feb47b; }
+
+/* ══════════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════════ */
+.footer {
+  text-align: center;
+  opacity: 0.6;
+  font-size: clamp(0.8rem, 2vw, 0.95rem);
+  padding: clamp(1.5rem, 4vw, 3rem) 1.5rem;
 }
 
-.floating-heart:nth-child(even) {
-  color: #ff9a9e;
+/* ══════════════════════════════════════════════
+   APP LAYOUT
+══════════════════════════════════════════════ */
+.app-main {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.content-area {
+  flex: 1;
+  /* mobile: space for bottom nav */
+  padding-bottom: clamp(80px, 15vw, 110px);
+}
+@media (min-width: 768px) {
+  .content-area {
+    padding-top: 80px;
+    padding-bottom: clamp(2rem, 4vw, 3rem);
+  }
 }
 
-.floating-heart:nth-child(3n) {
-  color: #feb47b;
+/* ══════════════════════════════════════════════
+   MUSIC PLAYER — responsive
+══════════════════════════════════════════════ */
+.music-player {
+  max-width: 100%;
 }
-
-.text-gradient {
-  background: var(--primary-gradient);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+@media (max-width: 480px) {
+  .music-player-inner {
+    padding: 0.6rem 1rem !important;
+    gap: 0.5rem !important;
+  }
 }

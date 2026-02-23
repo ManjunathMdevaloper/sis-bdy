@@ -22,30 +22,62 @@ const Note = () => {
               onClick={() => setIsOpened(true)}
               className="heart-trigger"
             >
-              <motion.div
-                animate={{
-                  scale: [1, 1.15, 1, 1.25, 1],
-                  filter: [
-                    'drop-shadow(0 0 10px rgba(255, 107, 107, 0.2))',
-                    'drop-shadow(0 0 30px rgba(255, 107, 107, 0.6))',
-                    'drop-shadow(0 0 15px rgba(255, 107, 107, 0.3))',
-                    'drop-shadow(0 0 40px rgba(255, 107, 107, 0.8))',
-                    'drop-shadow(0 0 10px rgba(255, 107, 107, 0.2))'
-                  ]
-                }}
-                transition={{
-                  repeat: Infinity,
-                  duration: 1.2,
-                  times: [0, 0.1, 0.2, 0.4, 0.7],
-                  ease: "easeInOut"
-                }}
-                className="trigger-icon"
-              >
-                <GiHeartOrgan color="var(--accent-color)" size={120} />
-              </motion.div>
+              <div className="heart-visuals" style={{ position: 'relative' }}>
+                <motion.div
+                  animate={{
+                    scale: [1, 1.15, 1, 1.25, 1],
+                    filter: [
+                      'drop-shadow(0 0 10px rgba(139, 0, 0, 0.2))',
+                      'drop-shadow(0 0 30px rgba(139, 0, 0, 0.6))',
+                      'drop-shadow(0 0 15px rgba(139, 0, 0, 0.3))',
+                      'drop-shadow(0 0 40px rgba(139, 0, 0, 0.8))',
+                      'drop-shadow(0 0 10px rgba(139, 0, 0, 0.2))'
+                    ]
+                  }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: 1.2,
+                    times: [0, 0.1, 0.2, 0.4, 0.7],
+                    ease: "easeInOut"
+                  }}
+                  className="trigger-icon"
+                >
+                  <GiHeartOrgan color="#8b0000" size={140} />
+                </motion.div>
+
+                {/* Blood Drops Animation */}
+                {[...Array(5)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ y: 50, x: (i - 2) * 25, opacity: 0 }}
+                    animate={{
+                      y: [50, 150],
+                      opacity: [0, 1, 0],
+                      scale: [0.5, 1, 0.5]
+                    }}
+                    transition={{
+                      repeat: Infinity,
+                      duration: 2 + Math.random() * 1.5,
+                      delay: i * 0.5,
+                      ease: "easeIn"
+                    }}
+                    style={{
+                      position: 'absolute',
+                      top: '20px',
+                      left: '50%',
+                      width: '8px',
+                      height: '14px',
+                      backgroundColor: '#7a0012',
+                      borderRadius: '50% 50% 50% 50% / 60% 60% 40% 40%',
+                      zIndex: -1,
+                      transform: 'translateX(-50%)'
+                    }}
+                  />
+                ))}
+              </div>
               <div className="trigger-text-container">
-                <span className="trigger-text">open heart</span>
-                <div className="heartbeat-line"></div>
+                <span className="trigger-text" style={{ color: '#8b0000' }}>open heart</span>
+                <div className="heartbeat-line" style={{ background: '#8b0000' }}></div>
               </div>
             </motion.div>
           </motion.div>

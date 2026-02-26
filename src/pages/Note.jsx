@@ -114,6 +114,7 @@ const Note = () => {
                 No matter where life takes us, remember—I’m always here, and I'll love you forever.
               </p>
               <p className="signature">Happy Birthday, Siri! 🎂🌸</p>
+              <p className="telugu-text">నాకు ఎంత దూరంగా ఉన్నా నా మనసుకి దగ్గరగానే ఉంటావు.</p>
             </div>
             <motion.div
               animate={{ scale: [1, 1.2, 1] }}
@@ -211,7 +212,7 @@ const Note = () => {
           line-height: 1.8;
           margin-bottom: 25px;
           color: var(--text-dark);
-          font-weight: 400;
+          font-weight: 600;
         }
         .signature {
           font-weight: 700;
@@ -222,6 +223,14 @@ const Note = () => {
           -webkit-background-clip: text;
           background-clip: text;
           -webkit-text-fill-color: transparent;
+        }
+        .telugu-text {
+          font-size: clamp(1.5rem, 6vw, 2.2rem);
+          margin-top: 30px;
+          color: #2d3436;
+          font-weight: 900;
+          line-height: 1.5;
+          font-family: 'Outfit', sans-serif;
         }
         .sparkle-bg {
           position: absolute;

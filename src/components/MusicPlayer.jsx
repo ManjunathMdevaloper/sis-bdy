@@ -7,6 +7,28 @@ const MusicPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
 
+  React.useEffect(() => {
+    const attemptPlay = () => {
+      if (audioRef.current) {
+        audioRef.current.play()
+          .then(() => {
+            setIsPlaying(true);
+            window.removeEventListener('click', attemptPlay);
+          })
+          .catch(() => {
+            console.log("Autoplay waiting for interaction...");
+          });
+      }
+    };
+
+    // Try immediately
+    attemptPlay();
+
+    // Also try on first click anywhere
+    window.addEventListener('click', attemptPlay);
+    return () => window.removeEventListener('click', attemptPlay);
+  }, []);
+
   const toggleMusic = () => {
     if (isPlaying) {
       audioRef.current.pause();
@@ -18,7 +40,6 @@ const MusicPlayer = () => {
         })
         .catch(e => {
           console.error("Audio play error:", e);
-          alert("Click anywhere on the page first, then try the music button again!");
         });
     }
   };
